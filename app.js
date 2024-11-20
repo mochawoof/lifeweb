@@ -19,6 +19,50 @@ let off = [0, 0];
 
 let playPauseButton = document.querySelector("#playPauseButton");
 
+function picture(withGrid) {
+    shouldDrawGrid = withGrid;
+    shouldDrawInfo = false;
+    draw();
+    let url = canvas.toDataURL("image/jpeg");
+    let a = document.createElement("a");
+    a.href = url;
+    a.download = "picture.jpg";
+    a.click();
+
+    shouldDrawGrid = true;
+    shouldDrawInfo = true;
+    draw();
+}
+
+function save() {
+    let data = JSON.stringify(cells);
+    let url = "data:text/plain;," + data;
+    let a = document.createElement("a");
+    a.href = url;
+    a.download = "game.cgl";
+    a.click();
+}
+
+function load() {
+    let input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".cgl";
+    input.oninput = (e) => {
+        if (input.files.length > 0) {
+            reset();
+            let file = input.files[0];
+            let reader = new FileReader();
+            reader.onload = (t) => {
+                let loaded = JSON.parse(reader.result);
+                cells = loaded;
+                draw();
+            }
+            reader.readAsText(file);
+        }
+    }
+    input.click();
+}
+
 function setSpeed(sp) {
     speed = sp;
     if (playFn != -1) {
@@ -62,7 +106,6 @@ function reset() {
     generation = 0;
     cells = [];
     off = [0, 0];
-    speed = 1;
     draw();
 }
 

@@ -4,7 +4,6 @@ let caching = null;
 
 function cacheImagesRange(i, end, cb) {
     let im = new Image();
-    im.src = caching[i];
     im.onload = (e) => {
         cache[caching[i]] = im;
         if (i + 1 < end) {
@@ -15,6 +14,7 @@ function cacheImagesRange(i, end, cb) {
             return;
         }
     }
+    im.src = caching[i];
 }
 
 assetLoader.loadImages = (images, cb) => {
