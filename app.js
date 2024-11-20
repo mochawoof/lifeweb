@@ -244,7 +244,7 @@ function draw() {
         ctx.fillText("Generation " + generation, canvas.width - width, 14, width);
         ctx.fillText("Frame time " + frameTime, canvas.width - width, 14 * 2, width);
         ctx.fillText(off[0] + ", " + off[1], canvas.width - width, 14 * 3, width);
-        ctx.fillText(speed + "x", canvas.width - 200, 14 * 4, width);
+        ctx.fillText(speed + "x", canvas.width - width, 14 * 4, width);
     }
 }
 
