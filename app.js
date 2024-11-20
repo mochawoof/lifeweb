@@ -240,10 +240,11 @@ function draw() {
     if (shouldDrawInfo) {
         ctx.fillStyle = "#000";
         ctx.font = "14px sans-serif";
-        ctx.fillText("Generation " + generation, canvas.width - 200, 14);
-        ctx.fillText("Frame time " + frameTime, canvas.width - 200, 14 * 2);
-        ctx.fillText(off[0] + ", " + off[1], canvas.width - 200, 14 * 3);
-        ctx.fillText(speed + "x", canvas.width - 200, 14 * 4);
+        let width = 100;
+        ctx.fillText("Generation " + generation, canvas.width - width, 14, width);
+        ctx.fillText("Frame time " + frameTime, canvas.width - width, 14 * 2, width);
+        ctx.fillText(off[0] + ", " + off[1], canvas.width - width, 14 * 3, width);
+        ctx.fillText(speed + "x", canvas.width - 200, 14 * 4, width);
     }
 }
 
