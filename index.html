@@ -38,11 +38,24 @@
     .reset {
         background-position: 0 -32px !important;
     }
+    .x1 {
+        background-position: 0 -64px !important;
+    }
+    .x10 {
+        background-position: -32px -64px !important;
+    }
+    .xmax {
+        background-position: -64px -64px !important;
+    }
 </style>
 <body>
     <div id="buttons">
-        <button class="play" title="Play" onclick="playPause(this)"></button>
-        <button class="reset" title="Reset" onclick="reset()"></button>
+        <button id="playPauseButton" class="play" title="Play" onclick="playPause()"></button>
+        <button id="resetButton" class="reset" title="Reset" onclick="reset()"></button>
+        <br/>
+        <button id="x1Button" class="x1" title="1x speed" onclick="setSpeed(1)"></button>
+        <button id="x10Button" class="x10" title="10x speed" onclick="setSpeed(10)"></button>
+        <button id="xmaxButton" class="xmax" title="Max speed" onclick="setSpeed(999999)"></button>
     </div>
     <canvas id="canvas"></canvas>
 </body>

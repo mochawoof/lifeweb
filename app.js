@@ -13,29 +13,56 @@ let tool = "brush"; // brush, eraser
 let cells = [];
 let highlightedCell = [];
 
-let playFn = 0;
-let playInterval = 100;
+let playFn = -1;
+let speed = 1;
+let off = [0, 0];
 
-function playPause(src) {
-    if (src.classList.contains("play")) {
-        src.classList.remove("play");
-        src.classList.add("pause");
-        
-        playFn = setInterval(() => {
-            doGeneration();
-            draw();
-        }, playInterval);
+let playPauseButton = document.querySelector("#playPauseButton");
+
+function setSpeed(sp) {
+    speed = sp;
+    if (playFn != -1) {
+        play();
     } else {
-        src.classList.remove("pause");
-        src.classList.add("play");
-
-        clearInterval(playFn);
+        draw();
     }
 }
 
+function playPause() {
+    if (playPauseButton.classList.contains("play")) {
+        play();
+    } else {
+        pause();
+    }
+}
+
+function play() {
+    pause();
+    playPauseButton.classList.remove("play");
+    playPauseButton.classList.add("pause");
+    playPauseButton.title = "Pause";
+
+    playFn = setInterval(() => {
+        doGeneration();
+        draw();
+    }, 1000 / speed);
+}
+
+function pause() {
+    playPauseButton.classList.remove("pause");
+    playPauseButton.classList.add("play");
+    playPauseButton.title = "Play";
+
+    clearInterval(playFn);
+    playFn = -1;
+}
+
 function reset() {
+    pause();
     generation = 0;
     cells = [];
+    off = [0, 0];
+    speed = 1;
     draw();
 }
 
@@ -137,12 +164,18 @@ function draw() {
     // draw cells
     for (let i = 0; i < cells.length; i++) {
         let cell = cells[i];
-        ctx.fillStyle = "#000";
-        ctx.fillRect(cell[0] * cellSize, cell[1] * cellSize, cellSize, cellSize);
+        let x = cell[0] * cellSize;
+        let y = cell[1] * cellSize;
+
+        // Don't draw if it's outside of the canvas
+        if (x >= 0 && x < canvas.width && y >= 0 && y < canvas.height) {
+            ctx.fillStyle = "#000";
+            ctx.fillRect(x, y, cellSize, cellSize);
+        }
     }
-    
+
     // Draw highlighted cell
-    if (highlightedCell.length == 2) {
+    if (highlightedCell.length == 2 && !isMouseDown) {
         ctx.fillStyle = "#ddd";
         ctx.fillRect(highlightedCell[0] * cellSize, highlightedCell[1] * cellSize, cellSize, cellSize);
     }
@@ -157,7 +190,7 @@ function draw() {
             ctx.fillRect(0, y, canvas.width, 1);
         }
     }
-    
+
     // no strenuous draws should be made after frameTime is calculated
     frameTime = Date.now() - drawStart;
 
@@ -166,6 +199,8 @@ function draw() {
         ctx.font = "14px sans-serif";
         ctx.fillText("Generation " + generation, canvas.width - 200, 14);
         ctx.fillText("Frame time " + frameTime, canvas.width - 200, 14 * 2);
+        ctx.fillText(off[0] + ", " + off[1], canvas.width - 200, 14 * 3);
+        ctx.fillText(speed + "x", canvas.width - 200, 14 * 4);
     }
 }
 
@@ -205,7 +240,6 @@ canvas.onmousedown = (e) => {
         tool = "brush";
         spawnCell(highlightedCell);
     }
-    highlightedCell = [];
     draw();
 }
 
