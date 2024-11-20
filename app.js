@@ -207,11 +207,11 @@ function draw() {
     // draw cells
     for (let i = 0; i < cells.length; i++) {
         let cell = cells[i];
-        let x = cell[0] * cellSize;
-        let y = cell[1] * cellSize;
+        let x = (cell[0] - off[0]) * cellSize;
+        let y = (cell[1] - off[1]) * cellSize;
 
         // Don't draw if it's outside of the canvas
-        if (x >= 0 && x < canvas.width && y >= 0 && y < canvas.height) {
+        if (x >= 0 && x <= canvas.width && y >= 0 && y <= canvas.height) {
             ctx.fillStyle = "#000";
             ctx.fillRect(x, y, cellSize, cellSize);
         }
@@ -220,7 +220,7 @@ function draw() {
     // Draw highlighted cell
     if (highlightedCell.length == 2 && !isMouseDown) {
         ctx.fillStyle = "#ddd";
-        ctx.fillRect(highlightedCell[0] * cellSize, highlightedCell[1] * cellSize, cellSize, cellSize);
+        ctx.fillRect((highlightedCell[0] - off[0]) * cellSize, (highlightedCell[1] - off[1]) * cellSize, cellSize, cellSize);
     }
 
     // draw grid
@@ -250,8 +250,8 @@ function draw() {
 
 canvas.onmousemove = (e) => {
     highlightedCell = [
-        Math.floor(e.offsetX / cellSize),
-        Math.floor(e.offsetY / cellSize)
+        Math.floor(e.offsetX / cellSize) + off[0],
+        Math.floor(e.offsetY / cellSize) + off[1]
     ];
 
     // Handle brush
