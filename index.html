@@ -10,10 +10,41 @@
         margin: 0;
         overflow: hidden;
     }
+
+    #buttons {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    #buttons button {
+        background: #fff;
+        background-image: url(res/ui.png);
+        border: 1px solid #000;
+        width: 32px;
+        height: 32px;
+    }
+
+    #buttons button:hover {
+        background-color: #ddd;
+    }
+
+    .play {
+        background-position: -64px 0 !important;
+    }
+    .pause {
+        background-position: -96px 0 !important;
+    }
+    .reset {
+        background-position: 0 -32px !important;
+    }
 </style>
 <body>
+    <div id="buttons">
+        <button class="play" title="Play"></button>
+        <button class="reset" title="Reset"></button>
+    </div>
     <canvas id="canvas"></canvas>
 </body>
-<script src="asset-loader.js"></script>
 <script src="app.js"></script>
 </html>

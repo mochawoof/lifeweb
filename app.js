@@ -1,12 +1,6 @@
 let canvas = document.querySelector("#canvas");
 let ctx = canvas.getContext("2d");
 
-assetLoader.loadImages([
-    "res/ui.png"
-], () => {
-    draw();
-});
-
 let generation = 0;
 let frameTime = 0;
 let cellSize = 10;
@@ -155,7 +149,7 @@ function draw() {
     }
 }
 
-document.onmousemove = (e) => {
+canvas.onmousemove = (e) => {
     highlightedCell = [
         Math.floor(e.offsetX / cellSize),
         Math.floor(e.offsetY / cellSize)
@@ -173,7 +167,7 @@ document.onmousemove = (e) => {
     draw();
 }
 
-document.onmousedown = (e) => {
+canvas.onmousedown = (e) => {
     isMouseDown = true;
     let cellIndex = getCellIndex(highlightedCell);
     if (cellIndex != -1) {
@@ -187,8 +181,15 @@ document.onmousedown = (e) => {
     draw();
 }
 
-document.onmouseup = (e) => {
+canvas.onmouseup = (e) => {
     isMouseDown = false;
 }
 
+canvas.onmouseleave = (e) => {
+    isMouseDown = false;
+    highlightedCell = [];
+    draw();
+}
+
 document.onresize = draw;
+draw();
