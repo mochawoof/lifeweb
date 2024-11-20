@@ -13,6 +13,26 @@ let tool = "brush"; // brush, eraser
 let cells = [];
 let highlightedCell = [];
 
+let playFn = 0;
+let playInterval = 100;
+
+function playPause(src) {
+    if (src.classList.contains("play")) {
+        src.classList.remove("play");
+        src.classList.add("pause");
+        
+        playFn = setInterval(() => {
+            doGeneration();
+            draw();
+        }, playInterval);
+    } else {
+        src.classList.remove("pause");
+        src.classList.add("play");
+
+        clearInterval(playFn);
+    }
+}
+
 function reset() {
     generation = 0;
     cells = [];
@@ -166,6 +186,14 @@ canvas.onmousemove = (e) => {
 
     draw();
 }
+canvas.addEventListener("touchmove", (e) => {
+    isMouseDown = true;
+    canvas.onmousemove({
+        offsetX: (e.changedTouches[0].clientX),
+        offsetY: (e.changedTouches[0].clientY)
+    });
+    isMouseDown = false;
+});
 
 canvas.onmousedown = (e) => {
     isMouseDown = true;
