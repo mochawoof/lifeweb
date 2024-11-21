@@ -24,6 +24,7 @@
         border: 1px solid #000;
         width: 32px;
         height: 32px;
+        outline: none;
     }
 
     button:hover {
@@ -114,9 +115,9 @@
         <button id="downButton" class="down" title="Down" onclick="move(0, 5)"></button>
         <button id="rightButton" class="right" title="Right" onclick="move(5, 0)"></button>
         <br/>
-        <button id="zoomOutButton" class="zoomOut" title="Zoom out" onclick="zoomOut()"></button>
-        <button id="zoomResetButton" class="zoomReset" title="Reset zoom" onclick="zoomReset()"></button>
-        <button id="zoomInButton" class="zoomIn" title="Zoom in" onclick="zoomIn()"></button>
+        <button id="zoomOutButton" class="zoomOut" title="Zoom out (-)" onclick="zoomOut()"></button>
+        <button id="zoomResetButton" class="zoomReset" title="Reset zoom (0)" onclick="zoomReset()"></button>
+        <button id="zoomInButton" class="zoomIn" title="Zoom in (+)" onclick="zoomIn()"></button>
     </div>
     <canvas id="canvas"></canvas>
 </body>

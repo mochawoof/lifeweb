@@ -36,7 +36,7 @@ function move(x, y) {
 }
 
 function zoomOut() {
-    setCellSizeClamped(cellSize - 5);
+    setCellSizeClamped(cellSize - 1);
 }
 
 function zoomReset() {
@@ -88,15 +88,35 @@ function save() {
 function load() {
     let input = document.createElement("input");
     input.type = "file";
-    input.accept = ".cgl";
+    input.accept = ".cgl, .cells";
     input.oninput = (e) => {
         if (input.files.length > 0) {
             reset();
             let file = input.files[0];
             let reader = new FileReader();
             reader.onload = (t) => {
-                let loaded = JSON.parse(reader.result);
-                cells = loaded;
+                try {
+                    let loaded = JSON.parse(reader.result);
+                    cells = loaded;
+                } catch {
+                    // It must be a .cells file, try to load that
+                    let lines = reader.result.split("\n");
+                    let newCells = [];
+                    let y = 0;
+                    for (let i = 0; i < lines.length; i++) {
+                        let line = lines[i];
+                        // Ignore comments
+                        if (!line.startsWith("!")) {
+                            for (let x = 0; x < line.length; x++) {
+                                if (line[x].toLowerCase() == "o") {
+                                    newCells.push([x, y]);
+                                }
+                            }
+                            y++;
+                        }
+                    }
+                    cells = newCells;
+                }
                 draw();
             }
             reader.readAsText(file);
@@ -285,7 +305,9 @@ function draw() {
         let width = 100;
         ctx.fillText("Generation " + generation, canvas.width - width, 14, width);
         ctx.fillText("Frame time " + frameTime, canvas.width - width, 14 * 2, width);
-        ctx.fillText(off[0] + ", " + off[1], canvas.width - width, 14 * 3, width);
+        if (highlightedCell.length == 2) {
+            ctx.fillText(highlightedCell[0] + ", " + highlightedCell[1], canvas.width - width, 14 * 3, width);
+        }
         ctx.fillText(speed + "x", canvas.width - width, 14 * 4, width);
     }
 }
@@ -357,6 +379,12 @@ document.onkeydown = (e) => {
         move(-5, 0);
     } else if (e.key == "ArrowRight") {
         move(5, 0);
+    } else if (e.key == "-") {
+        zoomOut();
+    } else if (e.key == "=") {
+        zoomIn();
+    } else if (e.key == "0") {
+        zoomReset();
     }
 }
 
