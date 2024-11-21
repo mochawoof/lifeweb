@@ -19,6 +19,31 @@ let off = [0, 0];
 
 let playPauseButton = document.querySelector("#playPauseButton");
 
+function clamp(n, min, max) {
+    if (n < min) {
+        return min;
+    } else if (n > max) {
+        return max;
+    } else {
+        return n;
+    }
+}
+
+function zoomOut() {
+    cellSize = clamp(cellSize - 5, 2, 50);
+    draw();
+}
+
+function zoomReset() {
+    cellSize = 10;
+    draw();
+}
+
+function zoomIn() {
+    cellSize = clamp(cellSize + 5, 2, 50);
+    draw();
+}
+
 function picture(withGrid) {
     shouldDrawGrid = withGrid;
     shouldDrawInfo = false;

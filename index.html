@@ -18,7 +18,7 @@
         left: 5px;
     }
 
-    #buttons button {
+    button {
         background: #fff;
         background-image: url(res/ui.png);
         border: 1px solid #000;
@@ -26,7 +26,7 @@
         height: 32px;
     }
 
-    #buttons button:hover {
+    button:hover {
         background-color: #ddd;
     }
 
@@ -39,15 +39,6 @@
     .reset {
         background-position: 0 -32px !important;
     }
-    .x1 {
-        background-position: 0 -64px !important;
-    }
-    .x10 {
-        background-position: -32px -64px !important;
-    }
-    .xmax {
-        background-position: -64px -64px !important;
-    }
     .picture {
         background-position: -32px -32px !important;
     }
@@ -59,6 +50,31 @@
     }
     .load {
         background-position: -128px -32px !important;
+    }
+    .x1 {
+        background-position: 0 -64px !important;
+    }
+    .x10 {
+        background-position: -32px -64px !important;
+    }
+    .xmax {
+        background-position: -64px -64px !important;
+    }
+
+    #buttonsDown {
+        position: absolute;
+        bottom: 5px;
+        left: 5px;
+    }
+
+    .zoomOut {
+        background-position: -96px -64px !important;
+    }
+    .zoomReset {
+        background-position: -128px -64px !important;
+    }
+    .zoomIn {
+        background-position: 0 -96px !important;
     }
 </style>
 <body>
@@ -73,6 +89,11 @@
         <button id="x1Button" class="x1" title="1x speed" onclick="setSpeed(1)"></button>
         <button id="x10Button" class="x10" title="10x speed" onclick="setSpeed(10)"></button>
         <button id="xmaxButton" class="xmax" title="Max speed" onclick="setSpeed(Number.MAX_SAFE_INTEGER)"></button>
+    </div>
+    <div id="buttonsDown">
+        <button id="zoomOutButton" class="zoomOut" title="Zoom out" onclick="zoomOut()"></button>
+        <button id="zoomResetButton" class="zoomReset" title="Reset zoom" onclick="zoomReset()"></button>
+        <button id="zoomInButton" class="zoomIn" title="Zoom in" onclick="zoomIn()"></button>
     </div>
     <canvas id="canvas"></canvas>
 </body>
