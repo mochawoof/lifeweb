@@ -29,6 +29,12 @@ function clamp(n, min, max) {
     }
 }
 
+function move(x, y) {
+    off[0] += x;
+    off[1] += y;
+    draw();
+}
+
 function zoomOut() {
     setCellSizeClamped(cellSize - 5);
 }
@@ -340,6 +346,18 @@ canvas.onmouseleave = (e) => {
     isMouseDown = false;
     highlightedCell = [];
     draw();
+}
+
+document.onkeydown = (e) => {
+    if (e.key == "ArrowUp") {
+        move(0, -5);
+    } else if (e.key == "ArrowDown") {
+        move(0, 5);
+    } else if (e.key == "ArrowLeft") {
+        move(-5, 0);
+    } else if (e.key == "ArrowRight") {
+        move(5, 0);
+    }
 }
 
 document.onresize = draw;

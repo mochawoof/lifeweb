@@ -67,6 +67,10 @@
         left: 5px;
     }
 
+    #buttons, #buttonsDown {
+        user-select: none;
+    }
+
     .zoomOut {
         background-position: -96px -64px !important;
     }
@@ -75,6 +79,19 @@
     }
     .zoomIn {
         background-position: 0 -96px !important;
+    }
+    .up {
+        background-position: -32px -96px !important;
+        margin-left: 36px;
+    }
+    .down {
+        background-position: -64px -96px !important;
+    }
+    .left {
+        background-position: -96px -96px !important;
+    }
+    .right {
+        background-position: -128px -96px !important;
     }
 </style>
 <body>
@@ -91,6 +108,12 @@
         <button id="xmaxButton" class="xmax" title="Max speed" onclick="setSpeed(Number.MAX_SAFE_INTEGER)"></button>
     </div>
     <div id="buttonsDown">
+        <button id="upButton" class="up" title="Up" onclick="move(0, -5)"></button>
+        <br/>
+        <button id="leftButton" class="left" title="Left" onclick="move(-5, 0)"></button>
+        <button id="downButton" class="down" title="Down" onclick="move(0, 5)"></button>
+        <button id="rightButton" class="right" title="Right" onclick="move(5, 0)"></button>
+        <br/>
         <button id="zoomOutButton" class="zoomOut" title="Zoom out" onclick="zoomOut()"></button>
         <button id="zoomResetButton" class="zoomReset" title="Reset zoom" onclick="zoomReset()"></button>
         <button id="zoomInButton" class="zoomIn" title="Zoom in" onclick="zoomIn()"></button>
