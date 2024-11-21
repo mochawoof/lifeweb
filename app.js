@@ -47,7 +47,7 @@ function zoomReset() {
 }
 
 function zoomIn() {
-    setCellSizeClamped(cellSize + 5);
+    setCellSizeClamped(cellSize + 1);
 }
 
 function setCellSizeClamped(newCellSize) {
@@ -147,7 +147,7 @@ function play() {
     pause();
     playPauseButton.classList.remove("play");
     playPauseButton.classList.add("pause");
-    playPauseButton.title = "Pause";
+    playPauseButton.title = "Pause (Space)";
 
     playFn = setInterval(() => {
         doGeneration();
@@ -158,7 +158,7 @@ function play() {
 function pause() {
     playPauseButton.classList.remove("pause");
     playPauseButton.classList.add("play");
-    playPauseButton.title = "Play";
+    playPauseButton.title = "Play (Space)";
 
     clearInterval(playFn);
     playFn = -1;
@@ -377,7 +377,10 @@ canvas.onmouseleave = (e) => {
 }
 
 document.onkeydown = (e) => {
-    if (e.key == "ArrowUp") {
+    e.preventDefault();
+    if (e.key == " ") {
+        playPause();
+    } else if (e.key == "ArrowUp") {
         move(0, -5);
     } else if (e.key == "ArrowDown") {
         move(0, 5);
