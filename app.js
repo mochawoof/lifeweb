@@ -2,7 +2,8 @@ let canvas = document.querySelector("#canvas");
 let ctx = canvas.getContext("2d");
 
 let generation = 0;
-let frameTime = 0;
+let simTime = 0;
+let drawTime = 0;
 let cellSize = 10;
 let shouldDrawGrid = true;
 let shouldDrawInfo = true;
@@ -212,6 +213,8 @@ function doGeneration() {
     let toKill = [];
     let toSpawn = [];
 
+    let simStart = Date.now();
+
     for (let i = 0; i < cells.length; i++) {
         let cell = cells[i];
         let neighbors = getNeighbors(cell);
@@ -253,6 +256,8 @@ function doGeneration() {
     toSpawn.forEach((cell) => {
         spawnCell(cell);
     });
+
+    simTime = Date.now() - simStart;
 
     generation++;
 }
@@ -296,19 +301,20 @@ function draw() {
         }
     }
 
-    // no strenuous draws should be made after frameTime is calculated
-    frameTime = Date.now() - drawStart;
+    // no strenuous draws should be made after drawTime is calculated
+    drawTime = Date.now() - drawStart;
 
     if (shouldDrawInfo) {
         ctx.fillStyle = "#000";
         ctx.font = "14px sans-serif";
         let width = 100;
         ctx.fillText("Generation " + generation, canvas.width - width, 14, width);
-        ctx.fillText("Frame time " + frameTime, canvas.width - width, 14 * 2, width);
+        ctx.fillText("Sim time " + simTime, canvas.width - width, 14 * 2, width);
+        ctx.fillText("Draw time " + drawTime, canvas.width - width, 14 * 3, width);
         if (highlightedCell.length == 2) {
-            ctx.fillText(highlightedCell[0] + ", " + highlightedCell[1], canvas.width - width, 14 * 3, width);
+            ctx.fillText(highlightedCell[0] + ", " + highlightedCell[1], canvas.width - width, 14 * 4, width);
         }
-        ctx.fillText(speed + "x", canvas.width - width, 14 * 4, width);
+        ctx.fillText(speed + "x", canvas.width - width, 14 * 5, width);
     }
 }
 
