@@ -309,12 +309,13 @@ function draw() {
         ctx.font = "14px sans-serif";
         let width = 100;
         ctx.fillText("Generation " + generation, canvas.width - width, 14, width);
-        ctx.fillText("Sim time " + simTime, canvas.width - width, 14 * 2, width);
-        ctx.fillText("Draw time " + drawTime, canvas.width - width, 14 * 3, width);
+        ctx.fillText(cells.length + " cells", canvas.width - width, 14 * 2, width);
+        ctx.fillText("Sim time " + simTime, canvas.width - width, 14 * 3, width);
+        ctx.fillText("Draw time " + drawTime, canvas.width - width, 14 * 4, width);
         if (highlightedCell.length == 2) {
-            ctx.fillText(highlightedCell[0] + ", " + highlightedCell[1], canvas.width - width, 14 * 4, width);
+            ctx.fillText(highlightedCell[0] + ", " + highlightedCell[1], canvas.width - width, 14 * 5, width);
         }
-        ctx.fillText(speed + "x", canvas.width - width, 14 * 5, width);
+        ctx.fillText(speed + "x", canvas.width - width, 14 * 6, width);
     }
 }
 
