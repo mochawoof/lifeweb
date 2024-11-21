@@ -30,17 +30,28 @@ function clamp(n, min, max) {
 }
 
 function zoomOut() {
-    cellSize = clamp(cellSize - 5, 2, 50);
-    draw();
+    setCellSizeClamped(cellSize - 5);
 }
 
 function zoomReset() {
     cellSize = 10;
+    off = [0, 0];
     draw();
 }
 
 function zoomIn() {
-    cellSize = clamp(cellSize + 5, 2, 50);
+    setCellSizeClamped(cellSize + 5);
+}
+
+function setCellSizeClamped(newCellSize) {
+    let oldCellSize = cellSize;
+    cellSize = clamp(newCellSize, 2, 50);
+    
+    let diffx = Math.ceil(canvas.width / oldCellSize) - Math.ceil(canvas.width / cellSize);
+    let diffy = Math.ceil(canvas.height / oldCellSize) - Math.ceil(canvas.height / cellSize);
+
+    off[0] += Math.floor(diffx / 2);
+    off[1] += Math.floor(diffy / 2);
     draw();
 }
 
@@ -130,7 +141,7 @@ function reset() {
     pause();
     generation = 0;
     cells = [];
-    off = [0, 0];
+    zoomReset();
     draw();
 }
 
@@ -290,12 +301,21 @@ canvas.onmousemove = (e) => {
 
     draw();
 }
-canvas.addEventListener("touchmove", (e) => {
+canvas.addEventListener("touchstart", (e) => {
+    e.preventDefault();
     isMouseDown = true;
+});
+
+canvas.addEventListener("touchmove", (e) => {
+    e.preventDefault();
     canvas.onmousemove({
         offsetX: (e.changedTouches[0].clientX),
         offsetY: (e.changedTouches[0].clientY)
     });
+});
+
+canvas.addEventListener("touchend", (e) => {
+    e.preventDefault();
     isMouseDown = false;
 });
 
