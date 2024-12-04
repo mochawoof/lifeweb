@@ -55,6 +55,10 @@
     .samples {
         background-position: -160px -32px !important;
     }
+    .help {
+        background-position: -160px -64px !important;
+    }
+
     .x1 {
         background-position: 0 -64px !important;
     }
@@ -97,7 +101,11 @@
     .right {
         background-position: -128px -96px !important;
     }
-
+    #modalText {
+        max-height: 245px;
+        word-wrap: break-word;
+        overflow: auto;
+    }
     #modal {
         background: #fff;
         border: 1px solid #000;
@@ -121,7 +129,7 @@
         display: block;
     }
     #modalButtons {
-        height: 214px;
+        max-height: 214px;
         overflow: auto;
     }
     #modalCancel {
@@ -140,6 +148,7 @@
         <button id="saveButton" class="save" title="Save to disk" onclick="save()"></button>
         <button id="loadButton" class="load" title="Load from disk" onclick="load()"></button>
         <button id="loadSamplesButton" class="samples" title="Load samples" onclick="loadSamples()"></button>
+        <button id="helpButton" class="help" title="Help" onclick="help()"></button>
         <br/>
         <button id="x1Button" class="x1" title="1x speed" onclick="setSpeed(1)"></button>
         <button id="x10Button" class="x10" title="10x speed" onclick="setSpeed(10)"></button>
@@ -149,7 +158,7 @@
         <p id="modalText"></p>
         <div id="modalButtons">
         </div>
-        <button id="modalCancel" class="mb" title="Cancel" onclick="closeModal()">Cancel</button>
+        <button id="modalCancel" class="mb" onclick="closeModal()"></button>
     </div>
     <div id="buttonsDown">
         <button id="upButton" class="up" title="Up" onclick="move(0, -5)"></button>

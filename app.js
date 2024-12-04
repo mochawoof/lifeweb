@@ -411,9 +411,13 @@ draw();
 let modal = document.querySelector("#modal");
 let modalText = document.querySelector("#modalText");
 let modalButtons = document.querySelector("#modalButtons");
+let modalCancel = document.querySelector("#modalCancel");
 
-function openModal(text, buttons, handler) {
-    modalText.innerText = text;
+function openModal(id, text, buttons, cancelText, handler) {
+    modal.dataset.modalId = id;
+    modalText.innerHTML = text;
+    modalCancel.innerText = cancelText;
+    modalCancel.title = cancelText;
     modalButtons.innerHTML = "";
     buttons.forEach((bt) => {
         let b = document.createElement("button");
@@ -431,15 +435,46 @@ function openModal(text, buttons, handler) {
 
 function closeModal() {
     modal.style.display = "none";
+    delete modal.dataset.modalId;
+}
+
+function isModalOpen(id) {
+    return !(modal.style.display == "none" || modal.style.display == "" || modal.dataset.modalId != id);
 }
 
 // samples are defined in samples.js
 
 function loadSamples() {
-    if (modal.style.display == "none" || modal.style.display == "") {
-        openModal("Load a sample...", Object.keys(samples), (t) => {
+    if (!isModalOpen("sample")) {
+        openModal("sample", "Load a sample...", Object.keys(samples), "Cancel", (t) => {
             loadRaw(samples[t]);
         });
+    } else {
+        closeModal();
+    }
+}
+
+function help() {
+    if (!isModalOpen("help")) {
+        openModal(
+            "help",
+            `Lifeweb is an open-source web implementation of <a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">John Conway's famous Game of Life</a>.
+            <br/><br/>
+            Hovering over a specific button will show you what it does.
+            <br/><br/>
+            The first row of buttons control the game and can pause, play or reset it. You can also take a picture of your work with the picture buttons.
+            <br/><br/>
+            Keep in mind that in order to save and load your work, you need to use the save and load buttons. Lifeweb is capable of loading its own .cgl files and .cells files (such that you can download from <a href="https://conwaylife.com/">conwaylife.com</a>).
+            <br/><br/>
+            The 3 buttons on the second row control the game's speed. 1x does a generation every 1 second, 10x does it 10 times a second and MAX does it at the highest speed possible.
+            <br/><br/>
+            Finally, the buttons on the bottom of the screen allow you to move the view around and zoom in or out.
+            <br/><br/>
+            Still stuck? Play with some samples using the samples button (the piece of paper).
+            <br/><br/>
+            Have a feature suggestion or a sample to submit? Open an issue on <a href="https://github.com/mochawoof/lifeweb/">GitHub</a>!`,
+            [], "Done", (t) => {}
+        );
     } else {
         closeModal();
     }
