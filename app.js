@@ -400,6 +400,8 @@ document.onkeydown = (e) => {
         zoomIn();
     } else if (e.key == "0") {
         zoomReset();
+    } else if (e.key == "Escape") {
+        closeModal();
     }
 }
 
@@ -417,7 +419,7 @@ function openModal(id, text, buttons, cancelText, handler) {
     modal.dataset.modalId = id;
     modalText.innerHTML = text;
     modalCancel.innerText = cancelText;
-    modalCancel.title = cancelText;
+    modalCancel.title = cancelText + " (esc)";
     modalButtons.innerHTML = "";
     buttons.forEach((bt) => {
         let b = document.createElement("button");
