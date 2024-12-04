@@ -92,38 +92,43 @@ function load() {
     input.accept = ".cgl, .cells";
     input.oninput = (e) => {
         if (input.files.length > 0) {
-            reset();
             let file = input.files[0];
             let reader = new FileReader();
             reader.onload = (t) => {
-                try {
-                    let loaded = JSON.parse(reader.result);
-                    cells = loaded;
-                } catch {
-                    // It must be a .cells file, try to load that
-                    let lines = reader.result.split("\n");
-                    let newCells = [];
-                    let y = 0;
-                    for (let i = 0; i < lines.length; i++) {
-                        let line = lines[i];
-                        // Ignore comments
-                        if (!line.startsWith("!")) {
-                            for (let x = 0; x < line.length; x++) {
-                                if (line[x].toLowerCase() == "o") {
-                                    newCells.push([x, y]);
-                                }
-                            }
-                            y++;
-                        }
-                    }
-                    cells = newCells;
-                }
-                draw();
+                loadRaw(reader.result);
             }
             reader.readAsText(file);
         }
     }
     input.click();
+}
+
+function loadRaw(t) {
+    reset();
+    try {
+        let loaded = JSON.parse(t);
+        cells = loaded;
+    } catch {
+        // It must be a .cells file, try to load that
+        let lines = t.split("\n");
+        let newCells = [];
+        let y = 0;
+        for (let i = 0; i < lines.length; i++) {
+            let line = lines[i];
+            // Ignore comments
+            if (!line.startsWith("!")) {
+                for (let x = 0; x < line.length; x++) {
+                    if (line[x].toLowerCase() == "o") {
+                        // Offset by 10 for aesthetics
+                        newCells.push([x + 10, y + 10]);
+                    }
+                }
+                y++;
+            }
+        }
+        cells = newCells;
+    }
+    draw();
 }
 
 function setSpeed(sp) {
@@ -400,3 +405,42 @@ document.onkeydown = (e) => {
 
 document.onresize = draw;
 draw();
+
+// Modal functions
+
+let modal = document.querySelector("#modal");
+let modalText = document.querySelector("#modalText");
+let modalButtons = document.querySelector("#modalButtons");
+
+function openModal(text, buttons, handler) {
+    modalText.innerText = text;
+    modalButtons.innerHTML = "";
+    buttons.forEach((bt) => {
+        let b = document.createElement("button");
+        b.classList.add("mb");
+        b.title = bt;
+        b.innerText = bt;
+        b.onclick = (e) => {
+            handler(bt);
+            closeModal();
+        }
+        modalButtons.appendChild(b);
+    });
+    modal.style.display = "block";
+}
+
+function closeModal() {
+    modal.style.display = "none";
+}
+
+// samples are defined in samples.js
+
+function loadSamples() {
+    if (modal.style.display == "none" || modal.style.display == "") {
+        openModal("Load a sample...", Object.keys(samples), (t) => {
+            loadRaw(samples[t]);
+        });
+    } else {
+        closeModal();
+    }
+}
